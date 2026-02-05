@@ -136,87 +136,164 @@
 // const greetArr = greeting => name => console.log(`${greeting} ${name}`);
 // greetArr('Hi')('ALlyn');
 
-const lufthansa = {
-  airline: 'Lufthansa',
-  iataCode: 'LH',
-  bookings: [],
-  book(flightNum, name) {
-    console.log(
-      `${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`,
-    );
-    this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
-  },
-};
+// const lufthansa = {
+//   airline: 'Lufthansa',
+//   iataCode: 'LH',
+//   bookings: [],
+//   book(flightNum, name) {
+//     console.log(
+//       `${name} booked a seat on ${this.airline} flight ${this.iataCode}${flightNum}`,
+//     );
+//     this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
+//   },
+// };
 
-lufthansa.book(239, 'Allyn Joshua');
-lufthansa.book(635, 'Angel Clores');
-console.log(lufthansa);
+// lufthansa.book(239, 'Allyn Joshua');
+// lufthansa.book(635, 'Angel Clores');
+// console.log(lufthansa);
 
-const eurowings = {
-  airline: 'Euro Wings',
-  iataCode: 'EW',
-  bookings: [],
-};
+// const eurowings = {
+//   airline: 'Euro Wings',
+//   iataCode: 'EW',
+//   bookings: [],
+// };
 
-const book = lufthansa.book;
-// book(23, 'Sarah Williams');
-// wont work since this will result to undefined since book is now a regular function call not a method
+// const book = lufthansa.book;
+// // book(23, 'Sarah Williams');
+// // wont work since this will result to undefined since book is now a regular function call not a method
 
-book.call(eurowings, 23, 'Angel Clores');
-console.log(eurowings);
+// book.call(eurowings, 23, 'Angel Clores');
+// console.log(eurowings);
 
-const swiss = {
-  airline: 'Swiss Air Lines',
-  iataCode: 'LX',
-  bookings: [],
-};
-book.call(swiss, 583, 'Mary Cooper');
+// const swiss = {
+//   airline: 'Swiss Air Lines',
+//   iataCode: 'LX',
+//   bookings: [],
+// };
+// book.call(swiss, 583, 'Mary Cooper');
 
-const flightData = [583, 'George Cooper'];
-book.apply(swiss, flightData);
-console.log(swiss);
-book.call(swiss, ...flightData);
+// const flightData = [583, 'George Cooper'];
+// book.apply(swiss, flightData);
+// console.log(swiss);
+// book.call(swiss, ...flightData);
 
-//Bind Method
+// //Bind Method
 
-const bookEW = book.bind(eurowings);
-const bookLH = book.bind(lufthansa);
-const bookLX = book.bind(swiss);
-bookEW(23, 'Stephen Williams');
+// const bookEW = book.bind(eurowings);
+// const bookLH = book.bind(lufthansa);
+// const bookLX = book.bind(swiss);
+// bookEW(23, 'Stephen Williams');
 
-const bookEW23 = book.bind(eurowings, 23);
-bookEW23('Jonas Schmedtmann');
-bookEW23('Martha Cooper');
+// const bookEW23 = book.bind(eurowings, 23);
+// bookEW23('Jonas Schmedtmann');
+// bookEW23('Martha Cooper');
 
-//With event listeners
-lufthansa.planes = 300;
-lufthansa.buyPlane = function () {
-  console.log(this);
-  this.planes++;
-  console.log(this.planes);
-};
-// lufthansa.buyPlane();
+// //With event listeners
+// lufthansa.planes = 300;
+// lufthansa.buyPlane = function () {
+//   console.log(this);
+//   this.planes++;
+//   console.log(this.planes);
+// };
+// // lufthansa.buyPlane();
 
-document
-  .querySelector('.buy')
-  .addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
+// document
+//   .querySelector('.buy')
+//   .addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
 
-// Partial Application preset parameters
-const addTax = (rate, value) => value + value * rate;
-console.log(0.1, 200);
+// // Partial Application preset parameters
+// const addTax = (rate, value) => value + value * rate;
+// console.log(0.1, 200);
 
-//more specific function for add tax
-const addVAT = addTax.bind(null, 0.23);
-// addVAT = value => value + value * 0.23;
-console.log(addVAT(100));
-console.log(addVAT(23));
+// //more specific function for add tax
+// const addVAT = addTax.bind(null, 0.23);
+// // addVAT = value => value + value * 0.23;
+// console.log(addVAT(100));
+// console.log(addVAT(23));
 
-const addTaxRate = function (rate) {
-  return function (value) {
-    return value + value * rate;
+// const addTaxRate = function (rate) {
+//   return function (value) {
+//     return value + value * rate;
+//   };
+// };
+
+// const addVAT2 = addTaxRate(0.23);
+// console.log(addVAT2(100));
+// console.log(addVAT2(23));
+
+// const runOnce = function () {
+//   console.log('This will never run again');
+// };
+// runOnce();
+
+// (function () {
+//   console.log('This will never run again');
+//   const isPrivate = 23;
+// })();
+
+// (() => console.log('This will never run again'))();
+
+// //declare private variables\
+// {
+//   const isPrivate = 23;
+//   var notPrivate = 46;
+// }
+// console.log(isPrivate);
+
+// const secureBooking = function () {
+//   let passengerCount = 0;
+//   return function () {
+//     passengerCount++;
+//     console.log(`${passengerCount} passengers`);
+//   };
+// };
+// const booker = secureBooking();
+// //closure remembers birthplace variables
+// booker();
+// booker();
+// booker();
+
+// console.dir(booker);
+// secureBooking()();
+
+//Example 1
+let f;
+const g = function () {
+  const a = 23;
+  f = function () {
+    console.log(a * 2);
   };
 };
 
-const addVAT2 = addTaxRate(0.23);
-console.log(addVAT2(100));
-console.log(addVAT2(23));
+const h = function () {
+  const b = 777;
+  f = function () {
+    console.log(b * 2);
+  };
+};
+
+g();
+f();
+console.dir(f);
+
+//reassigned f function
+h();
+f();
+console.dir(f);
+
+//Example 2
+const boardPassengers = function (n, wait) {
+  const perGroup = n / 3;
+  setTimeout(function () {
+    console.log(`We are now boarding all ${n} passengers`);
+    console.log(`Ther eare 3 groups, each with ${perGroup} passengers`);
+  }, wait * 1000);
+  console.log(`Will start boarding in ${wait} seconds`);
+};
+
+// setTimeout(function () {
+//   (console.log(`TIMER`), 1000);
+// });
+
+const perGroup = 1000;
+boardPassengers(180, 3);
